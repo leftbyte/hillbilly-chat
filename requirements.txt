@@ -1,3 +1,4 @@
 black
 gradio
 openai
+typer
