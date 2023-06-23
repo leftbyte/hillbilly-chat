@@ -12,12 +12,14 @@ Example of a one-turn conversation with a hillbilly chatbot.
 VERSION = "1.0.0"
 
 
-def billy(input: str = None):
+def billy(region: str, input: str):
     """Hillbily chatbot that tranlates phrases to funny old sayings."""
+    print(f"bill region: {region} input: {input}")
+
     messages = [
         {
             "role": "system",
-            "content": "You are a quirky hillbilly from the 1920s that speaks in colloquialisms.",
+            "content": f"You are a quirky hillbilly from rural {region} that speaks in colloquialisms.",
         },
     ]
 
@@ -37,7 +39,19 @@ def main():
     apikey = os.getenv("OPENAI_API_KEY")
     openai.api_key = apikey
 
-    inputs = gr.Textbox(lines=7, label="Enter in a phrase to translate:")
+    inputs = [
+        gr.Dropdown(
+            [
+                "America",
+                "Australia",
+                "Canada",
+                "England",
+                "Ireland",
+            ],
+            label="Colloquial Region",
+        ),
+        gr.Textbox(lines=5, label="Enter in a phrase to translate:"),
+    ]
     outputs = gr.Textbox(label="I reckon I'd say:")
 
     gr.Interface(
