@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from datetime import datetime
 import openai
 import os
 import gradio as gr
@@ -14,7 +15,7 @@ VERSION = "1.0.0"
 
 def billy(region: str, input: str):
     """Hillbily chatbot that tranlates phrases to funny old sayings."""
-    print(f"bill region: {region} input: {input}")
+    print(f"date: {datetime.now()}, region: {region}, input: {input}")
 
     messages = [
         {
@@ -26,12 +27,14 @@ def billy(region: str, input: str):
     CONTEXT = "What is a hillbillly colloquialism for: "
     if input:
         messages.append({"role": "user", "content": CONTEXT + input})
+        print(f"date: {datetime.now()}, messages: {messages}")
         chat = openai.ChatCompletion.create(
             model="gpt-3.5-turbo", messages=messages
         )
 
         reply = chat.choices[0].message.content
         messages.append({"role": "assistant", "content": reply})
+        print(f"date: {datetime.now()}, reply: {reply}")
         return reply
 
 
@@ -42,7 +45,7 @@ def main():
     inputs = [
         gr.Dropdown(
             [
-                "America",
+                "American",
                 "Australia",
                 "Canada",
                 "England",
