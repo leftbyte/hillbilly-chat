@@ -42,14 +42,22 @@ def main():
     apikey = os.getenv("OPENAI_API_KEY")
     openai.api_key = apikey
 
+    # "Appalachia",
+    # "Breadbasket",
+    # "Ecotopia",
+    # "Dixie",
+    # "Foundry",
+    # "Mexamerica",
+    # "New England",
+
     inputs = [
         gr.Dropdown(
             [
-                "American",
                 "Australia",
                 "Canada",
                 "England",
                 "Ireland",
+                "United States",
             ],
             label="Colloquial Region",
         ),
