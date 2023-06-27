@@ -11,6 +11,8 @@ pinned: true
 # hillbilly-chat
 Example chatbot that takes a phrase and translates it to what a quirky hillbilly would say.
 
+To see a deployment of this app, go to https://huggingface.co/spaces/leftbyte/hillbilly-chat.
+
 # Usage
 
 Create an OpenAI API key and export the key.
