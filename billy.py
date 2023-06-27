@@ -16,9 +16,11 @@ Example of a one-turn conversation with a hillbilly chatbot.
 VERSION = "1.0.0"
 
 # We have these as globals because the inputs to the handler won't accept ints.
-REQ_LIMIT_HITS = 6
+ALL_REQ_LIMIT_HITS = 24
+CLIENT_REQ_LIMIT_HITS = 6
 REQ_LIMIT_MINUTES = 1
 CLIENTS = {}
+ALL_CLIENTS_TS = []
 
 
 def limitReached(
@@ -42,19 +44,34 @@ def limitReached(
     return len(history) > limitHits
 
 
-def checkClient(clients: TypedDict, cookie: str) -> (bool, str):
+def checkClient(clients: TypedDict, requester: str) -> (bool, str):
     now = datetime.datetime.now()
-    hsh = hashlib.sha256(bytes(cookie, "UTF-8")).hexdigest()
+    hsh = hashlib.sha256(bytes(requester, "UTF-8")).hexdigest()
     if hsh not in clients:
-        print(f"cookie: {cookie}")
+        print(f"requester: {requester}")
         clients[hsh] = [now]
     else:
         clients[hsh].append(now)
-        if limitReached(clients[hsh], REQ_LIMIT_HITS, REQ_LIMIT_MINUTES, now):
+        if limitReached(
+            clients[hsh], CLIENT_REQ_LIMIT_HITS, REQ_LIMIT_MINUTES, now
+        ):
             print(f"date: {now}, client: {hsh}, message: 'limit reached'")
             return True, "ERROR: REQUESTS PER MINIUTE LIMIT REACHED"
 
+    # check the global clients request rate
+    ALL_CLIENTS_TS.append(now)
+    if limitReached(ALL_CLIENTS_TS, ALL_REQ_LIMIT_HITS, REQ_LIMIT_MINUTES, now):
+        return True, "ERROR: ALL API REQUESTS PER MINIUTE LIMIT REACHED"
+
     return False, ""
+
+
+def getRequester(request: gr.Request) -> str:
+    requester = request.client.host
+    if "user-agent" in request.headers:
+        requester = "".join([requester, "::", request.headers["user-agent"]])
+
+    return requester
 
 
 def billy(
@@ -65,8 +82,8 @@ def billy(
     """Hillbily chatbot that tranlates phrases to funny old sayings."""
     print(f"date: {datetime.datetime.now()}, region: {region}, input: {input}")
 
-    cookie = request.headers["cookie"]
-    err, msg = checkClient(CLIENTS, cookie)
+    requester = getRequester(request)
+    err, msg = checkClient(CLIENTS, requester)
     if err:
         return msg
 
