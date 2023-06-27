@@ -143,7 +143,7 @@ def main():
         title=f"Colloquial Chatterbot {VERSION}",
         description="Things a hillbilly would say",
         theme=gr.themes.Monochrome(),
-    ).launch(share=True)
+    ).launch(share=False)
 
 
 if __name__ == "__main__":
