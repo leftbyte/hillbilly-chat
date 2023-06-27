@@ -20,4 +20,4 @@ E.g. export OPENAI_API_KEY=sk-abc123.
 Install the requirements.txt and run 'python billy.py'. Open the given link
 in a browser.
 
-E.g. http://127.0.0.1:7860
+E.g. When testing locally: http://127.0.0.1:7860
