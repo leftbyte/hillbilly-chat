@@ -1,3 +1,13 @@
+---
+title: hillbilly-chat
+app_file: billy.py
+sdk: gradio
+sdk_version: 3.35.2
+emoji: 🤠
+colorFrom: orange
+colorTo: brown
+pinned: true
+---
 # hillbilly-chat
 Example chatbot that takes a phrase and translates it to what a quirky hillbilly would say.
 
