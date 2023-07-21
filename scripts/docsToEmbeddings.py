@@ -23,6 +23,7 @@ import pinecone  # type: ignore
 import tiktoken
 from langchain.docstore.document import Document
 from langchain.document_loaders import GitbookLoader
+from langchain.document_loaders import DirectoryLoader
 from langchain.embeddings.base import Embeddings
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -31,7 +32,11 @@ from tiktoken import Encoding
 
 
 def load_local_docs(docs_path: str) -> List[Document]:
-    pass
+    # By default the DirectoryLoader will use the 'Unstructured'
+    # Document. Use mode="elements" if we need more metadat in the
+    # index.
+    loader = DirectoryLoader(docs_path, glob="**/*.pdf")
+    return loader.load()
 
 
 def load_gitbook_docs(docs_url: str) -> List[Document]:

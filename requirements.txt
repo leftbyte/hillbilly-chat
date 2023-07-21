@@ -9,3 +9,4 @@ pinecone-client
 pyarrow
 tiktoken
 typer
+unstructured
