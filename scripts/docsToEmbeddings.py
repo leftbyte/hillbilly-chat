@@ -162,9 +162,9 @@ if __name__ == "__main__":
     )
     parser.add_argument("--openai-api-key", type=str, help="OpenAI API key")
     parser.add_argument(
-        "--output-parquet-dir",
+        "--output-parquet-path",
         type=str,
-        help="Path to output parquet directory for saving the index",
+        help="Path to output parquet file to save the index",
     )
     parser.add_argument(
         "--docs-path", type=str, help="path containing documentation"
@@ -182,7 +182,7 @@ if __name__ == "__main__":
     pinecone_index_name = args.pinecone_index_name
     pinecone_environment = args.pinecone_environment
     openai_api_key = args.openai_api_key
-    output_parquet_dir = args.output_parquet_dir
+    output_parquet_path = args.output_parquet_path
 
     openai.api_key = openai_api_key
     pinecone.init(api_key=pinecone_api_key, environment=pinecone_environment)
@@ -201,5 +201,5 @@ if __name__ == "__main__":
     embeddings = OpenAIEmbeddingsWrapper(model=embedding_model_name)  # type: ignore
     build_pinecone_index(documents, embeddings, pinecone_index_name)
     save_dataframe_to_parquet(
-        embeddings.document_embedding_dataframe, output_parquet_dir
+        embeddings.document_embedding_dataframe, output_parquet_path
     )
