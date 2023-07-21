@@ -1,4 +1,11 @@
 black
+bs4
+fastparquet
 gradio
+langchain
 openai
+pandas
+pinecone-client
+pyarrow
+tiktoken
 typer
