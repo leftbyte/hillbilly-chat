@@ -201,7 +201,6 @@ if __name__ == "__main__":
     else:
         assert False, "Either the docs_url or docs_path must be set"
 
-    exit
     documents = chunk_docs(documents, embedding_model_name=embedding_model_name)
     embeddings = OpenAIEmbeddingsWrapper(model=embedding_model_name)  # type: ignore
     build_pinecone_index(documents, embeddings, pinecone_index_name)
